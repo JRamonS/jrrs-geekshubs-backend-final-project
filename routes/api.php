@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PetController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,3 +33,12 @@ Route::group([
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/pets', [PetController::class, 'registerPet'])->middleware('auth:sanctum');
+Route::get('/pets', [PetController::class, 'getPetsByUser'])->middleware('auth:sanctum');
+
+// Route::get('/pets', [PetController::class, 'index'])->name('pets.index');
+
+
+
+
