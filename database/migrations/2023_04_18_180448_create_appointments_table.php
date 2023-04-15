@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->text('observation');
-            $table->dateTime('date/time');
+            $table->dateTime('dateTime');
             $table->timestamps();
 
             $table->unsignedBigInteger('user_id');

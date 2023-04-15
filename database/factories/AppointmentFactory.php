@@ -21,7 +21,7 @@ class AppointmentFactory extends Factory
     {
         return [
             'observation' => fake()->sentence(),
-            'date/time' => fake()->dateTime(),
+            'dateTime' => fake()->dateTime(),
             'user_id' => User::all()->random()->id,
             'service_id' => Service::all()->random()->id,
             'pet_id' => Pet::all()->random()->id

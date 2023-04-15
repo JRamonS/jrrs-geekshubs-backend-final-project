@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PetController;
 use Illuminate\Http\Request;
@@ -28,17 +29,26 @@ Route::group([
 ], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/profile', [AuthController::class, 'profile']);
+    
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+//Pets Register and See by User
+Route::group([
+    'middleware' => ['auth:sanctum']
+], function () {
+    Route::post('/pets', [PetController::class, 'registerPet']);
+    Route::get('/pets', [PetController::class, 'getPetsByUser']);
 });
 
-Route::post('/pets', [PetController::class, 'registerPet'])->middleware('auth:sanctum');
-Route::get('/pets', [PetController::class, 'getPetsByUser'])->middleware('auth:sanctum');
 
-// Route::get('/pets', [PetController::class, 'index'])->name('pets.index');
-
+Route::group([
+    'middleware' => 'auth:sanctum'
+], function () {
+    Route::post('/appointment', [AppointmentController::class, 'createAppointment']);
+    Route::put('/pizzas/{id}', [PizzaController::class, 'updatePizza']);
+    Route::delete('/pizzas/{id}', [PizzaController::class, 'deletePizza']);
+    Route::post('/pizzas/add-ingredient/{id}', [PizzaController::class, 'addIngredientToPizzaId']);
+});
 
 
 
