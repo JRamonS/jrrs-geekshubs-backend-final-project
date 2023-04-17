@@ -13,54 +13,70 @@ class PetController extends Controller
 {
 
     public function registerPet(Request $request)
-    {
-        try {
+{
+    try {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'breed' => 'required|string',
+            'age' => 'required|string',
+            'type' => 'required|string',
+        ]);
 
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|string',
-                'breed' => 'required|string',
-                'age' => 'required|string',
-                'type' => 'required|string',
-            ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
 
-            if ($validator->fails()) {
-                return response()->json($validator->errors(), 400);
-            }
+        $name = $request->input('name');
+        $breed = $request->input('breed');
 
-            $name = $request->input('name');
-            $breed = $request->input('breed');
-            $age = $request->input('age');
-            $type = $request->input('type');
+        // Verifica si la mascota ya existe en la base de datos antes de crearla
+        $existingPet = Pet::where('name', $name)
+                        ->where('breed', $breed)
+                        ->first();
 
-            $pet = new Pet();
-            $pet->name = $name;
-            $pet->breed = $breed;
-            $pet->age = $age;
-            $pet->type = $type;
-            $pet->user_id = auth()->user()->id;
-
-            $pet->save();
-
-            return response()->json(
-                [
-                    "success" => true,
-                    "message" => "Pet Register",
-                    "data" => $pet
-                ],
-                200
-            );
-        } catch (\Throwable $th) {
-            Log::error("REGISTER PET: " . $th->getMessage());
+        if ($existingPet) {
             return response()->json(
                 [
                     "success" => false,
-                    "message" => "error register pet"
+                    "message" => "Pet already exists."
                 ],
-                500
+                400
             );
         }
+
+        // Si no existe una mascota con el mismo nombre y raza, crea una nueva
+        $age = $request->input('age');
+        $type = $request->input('type');
+
+        $pet = new Pet();
+        $pet->name = $name;
+        $pet->breed = $breed;
+        $pet->age = $age;
+        $pet->type = $type;
+        $pet->user_id = auth()->user()->id;
+
+        $pet->save();
+
+        return response()->json(
+            [
+                "success" => true,
+                "message" => "Pet registered successfully",
+                "data" => $pet
+            ],
+            200
+        );
+    } catch (\Throwable $th) {
+        Log::error("REGISTER PET: " . $th->getMessage());
+        return response()->json(
+            [
+                "success" => false,
+                "message" => "Error registering pet"
+            ],
+            500
+        );
     }
-    
+}
+
 
     public function getPetsByUser(Request $request)
 {
