@@ -22,14 +22,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Users
+//Users by Admin
 Route::group([
     'middleware' => ['auth:sanctum', 'isAdmin']
 ], function () {
     Route::get('/users', [UserController::class, 'getAllUsers']);
+    Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
 });
 
-//AllAppointments
+//AllAppointments by Admin
 Route::get('/appointments', [AppointmentController::class, 'getAllAppointments'])->middleware(['auth:sanctum', 'isAdmin']);
 
 // AUTH
@@ -52,7 +53,7 @@ Route::group([
     Route::get('/pets', [PetController::class, 'getPetsByUser']);
 });
 
-
+//Appointment CRUD by User and Pet Already Register
 Route::group([
     'middleware' => 'auth:sanctum'
 ], function () {

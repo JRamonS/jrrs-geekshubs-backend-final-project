@@ -30,4 +30,30 @@ class UserController extends Controller
             );
         }
     }
+
+    public function deleteUser(Request $request, $id)
+{
+    try {
+        $user = User::findOrFail($id);
+        $user->active = false;
+        $user->save();
+
+        return response()->json(
+            [
+                "success" => true,
+                "message" => "User deleted"
+            ],
+            200
+        );
+    } catch (\Throwable $th) {
+        return response()->json(
+            [
+                "success" => false,
+                "message" => $th->getMessage()
+            ],
+            500
+        );
+    }
+}
+
 }
