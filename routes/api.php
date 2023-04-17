@@ -44,6 +44,7 @@ Route::group([
 Route::group([
     'middleware' => 'auth:sanctum'
 ], function () {
+    Route::get('/appointment', [AppointmentController::class, 'getAppointmentsByUser']);
     Route::post('/appointment', [AppointmentController::class, 'createAppointment']);
     Route::put('/appointment', [AppointmentController::class, 'updateAppointment']);
     Route::delete('/appointment', [AppointmentController::class, 'deleteAppointment']);

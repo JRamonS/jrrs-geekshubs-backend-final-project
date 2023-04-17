@@ -170,4 +170,29 @@ public function deleteAppointment(Request $request,)
     }
 }
 
+public function getAppointmentsByUser(Request $request)
+{
+    try {
+        $user = $request->user(); // Obtener el usuario autenticado
+        $appointments = $user->appointments()->get(); // Obtener todas las citas del usuario
+
+        return response()->json(
+            [
+                "success" => true,
+                "message" => "User appointments",
+                "data" => $appointments
+            ],
+            200
+        );
+    } catch (\Throwable $th) {
+        return response()->json(
+            [
+                "success" => false,
+                "message" => $th->getMessage()
+            ],
+            500
+        );
+    }
+}
+
 }
