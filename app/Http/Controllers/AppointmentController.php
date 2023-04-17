@@ -80,7 +80,7 @@ public function updateAppointment(Request $request,)
                     "success" => true,
                     "message" => "Appointment doesn't exists",
                 ],
-                404
+                400
             );
         }
 
@@ -91,7 +91,7 @@ public function updateAppointment(Request $request,)
                     "success" => false,
                     "message" => "You are not authorized to update this appointment",
                 ],
-                403
+                400
             );
         }
 
@@ -124,9 +124,50 @@ public function updateAppointment(Request $request,)
     }
 }
 
+public function deleteAppointment(Request $request,)
+{
+    try {
+        $appointment = Appointment::find($request->input('appointment_id'));
 
+        if (!$appointment) {
+            return response()->json(
+                [
+                    "success" => true,
+                    "message" => "Appointment doesn't exists",
+                ],
+                400
+            );
+        }
 
+        // Verificar si el usuario está autorizado para eliminar la cita
+        if ($appointment->pet->user_id !== auth()->user()->id) {
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "You are not authorized to delete this appointment",
+                ],
+                400
+            );
+        }
 
+        $appointment->delete();
 
-    
+        return response()->json(
+            [
+                "success" => true,
+                "message" => "Appointment deleted"
+            ],
+            200
+        );
+    } catch (\Throwable $th) {
+        return response()->json(
+            [
+                "success" => false,
+                "message" => $th->getMessage()
+            ],
+            500
+        );
+    }
+}
+
 }
