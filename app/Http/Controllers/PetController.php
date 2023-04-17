@@ -16,7 +16,7 @@ class PetController extends Controller
 {
     try {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|unique',
+            'name' => 'required|string',
             'breed' => 'required|string',
             'age' => 'required|string',
             'type' => 'required|string',

@@ -20,10 +20,10 @@ class AuthController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|regex:/^[\pL\s\-]+$/u',
                 'surname' => 'required|string|regex:/^[\pL\s\-]+$/u',
-                'email' => 'required|string|unique:users,email',
-                'password' => 'required|string|min:8|max:25',
+                'email' => ['required', 'email', 'unique:users,email', 'regex:/^[^@]+(\.[^@]+)*@\w+(\.\w+)+$/'],
+                'password' => 'required|string|min:8|max:25|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]+$/',
                 'phone' => 'required|string|max:15',
-                'address' => 'required|string',
+                'address' => 'required|string|max:40',
                 
             ]);
 
@@ -165,13 +165,8 @@ class AuthController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 
-                'name' => 'required|string',
-                'surname' => 'required|string',
-                // 'email' => 'required|string|unique:users,email',
-                // 'password' => 'required|string|min:6|max:12',
-                // 'phone' => 'required|string|max:15',
-                // 'address' => 'required|string',
-                // 'age'=> 'required|string|min:1|max:2',
+                'phone' => 'required|string|max:15',
+                'address' => 'required|string|max:60',
             ]);
 
             if ($validator->fails()) {
@@ -190,15 +185,15 @@ class AuthController extends Controller
                 );
             }
 
-            $name = $request->input('name');
-            $surname = $request->input('surname');
+            $phone = $request->input('phone');
+            $address = $request->input('address');
 
-            if (isset($name)) {
-                $register->name = $name;
+            if (isset($phone)) {
+                $register->phone = $phone;
             }
 
-            if (isset($surname)) {
-                $register->surname = $surname;
+            if (isset($address)) {
+                $register->address = $address;
             }
 
             $register->save();
