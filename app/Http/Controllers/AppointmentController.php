@@ -58,5 +58,75 @@ class AppointmentController extends Controller
         );
     }
 }
+
+
+public function updateAppointment(Request $request,)
+{
+    try {
+        $validator = Validator::make($request->all(), [
+            'observation' => 'required|string',
+            'dateTime' => 'required|date_format:Y-m-d H:i:s',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $appointment = Appointment::find($request->input('appointment_id'));
+
+        if (!$appointment) {
+            return response()->json(
+                [
+                    "success" => true,
+                    "message" => "Appointment doesn't exists",
+                ],
+                404
+            );
+        }
+
+        // Verificar si el usuario está autorizado para actualizar la cita
+        if ($appointment->pet->user_id !== auth()->user()->id) {
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "You are not authorized to update this appointment",
+                ],
+                403
+            );
+        }
+
+        $observation = $request->input('observation');
+        $dateTime = $request->input('dateTime');
+
+
+        $appointment->observation = $observation;
+        $appointment->dateTime = $dateTime;
+
+
+        $appointment->save();
+
+        return response()->json(
+            [
+                "success" => true,
+                "message" => "Appointment updated",
+                "data" => $appointment
+            ],
+            200
+        );
+    } catch (\Throwable $th) {
+        return response()->json(
+            [
+                "success" => false,
+                "message" => $th->getMessage()
+            ],
+            500
+        );
+    }
+}
+
+
+
+
+
     
 }

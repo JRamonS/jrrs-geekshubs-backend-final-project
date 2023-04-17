@@ -45,7 +45,7 @@ Route::group([
     'middleware' => 'auth:sanctum'
 ], function () {
     Route::post('/appointment', [AppointmentController::class, 'createAppointment']);
-    Route::put('/pizzas/{id}', [PizzaController::class, 'updatePizza']);
+    Route::put('/appointment', [AppointmentController::class, 'updateAppointment']);
     Route::delete('/pizzas/{id}', [PizzaController::class, 'deletePizza']);
     Route::post('/pizzas/add-ingredient/{id}', [PizzaController::class, 'addIngredientToPizzaId']);
 });
