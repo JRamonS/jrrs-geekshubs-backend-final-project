@@ -27,7 +27,7 @@ Route::group([
     'middleware' => ['auth:sanctum', 'isAdmin']
 ], function () {
     Route::get('/users', [UserController::class, 'getAllUsers']);
-    Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
+    Route::delete('/users', [UserController::class, 'deleteUser']);
 });
 
 //AllAppointments by Admin
@@ -42,6 +42,7 @@ Route::group([
 ], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/profile', [AuthController::class, 'profile']);
+    Route::put('/profile', [AuthController::class, 'updateProfile']);
     
 });
 

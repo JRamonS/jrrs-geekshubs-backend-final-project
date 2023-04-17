@@ -29,7 +29,7 @@ class PetController extends Controller
         $name = $request->input('name');
         $type = $request->input('type');
 
-        // Verifica si la mascota ya existe en la base de datos antes de crearla
+        // Check if the pet already exists in the database before creating it.
         $existingPet = Pet::where('name', $name)
                         ->where('type', $type)
                         ->first();
@@ -44,7 +44,7 @@ class PetController extends Controller
             );
         }
 
-        // Si no existe una mascota con el mismo nombre y tipo, crea una nueva
+        // If there is no existing pet with the same name and type, create a new one.
         $age = $request->input('age');
         $breed = $request->input('breed');
         
@@ -82,8 +82,8 @@ class PetController extends Controller
     public function getPetsByUser(Request $request)
 {
     try {
-        $user = $request->user(); // Obtener el usuario autenticado
-        $pets = $user->pets()->get(); // Obtener todas las mascotas del usuario
+        $user = $request->user(); // Get authenticated user
+        $pets = $user->pets()->get(); // Get all the user's pets
 
         return response()->json(
             [

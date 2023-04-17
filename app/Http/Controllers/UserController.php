@@ -31,12 +31,16 @@ class UserController extends Controller
         }
     }
 
-    public function deleteUser(Request $request, $id)
+    public function deleteUser(Request $request,)
 {
     try {
+        $id = $request->input('id');
         $user = User::findOrFail($id);
         $user->active = false;
         $user->save();
+
+        //Disable all pets associated with the user
+        $user->pets()->update(['active' => false]);
 
         return response()->json(
             [

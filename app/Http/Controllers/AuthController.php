@@ -80,14 +80,14 @@ class AuthController extends Controller
             }
 
             $user = User::query()->where('email', $request['email'])->first();
-            // Validamos si el usuario existe
+            // Validate if the user exists
             if (!$user) {
                 return response(
                     ["success" => false, "message" => "Email or password are invalid",],
                     Response::HTTP_NOT_FOUND
                 );
             }
-            // Validamos la contraseña
+            // Validate the password
             if (!Hash::check($request['password'], $user->password)) {
                 return response(["success" => true, "message" => "Email or password are invalid"], Response::HTTP_NOT_FOUND);
             }
@@ -160,48 +160,51 @@ class AuthController extends Controller
         );
     }
 
-    public function updateProfile(Request $request, $id)
+    public function updateProfile(Request $request,)
     {
         try {
+
+            //Verify user authentication
+            $user = auth()->user();
+
             $validator = Validator::make($request->all(), [
-                
                 'phone' => 'required|string|max:15',
                 'address' => 'required|string|max:60',
             ]);
-
+        
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 400);
             }
-
-            $register = User::find($id);
-
+        
+            $register = User::find($user->id);
+        
             if (!$register) {
                 return response()->json(
                     [
                         "success" => true,
-                        "message" => "Register doesn't exists",
+                        "message" => "Profile doesn't exists",
                     ],
-                    404
+                    400
                 );
             }
-
+        
             $phone = $request->input('phone');
             $address = $request->input('address');
-
+        
             if (isset($phone)) {
                 $register->phone = $phone;
             }
-
+        
             if (isset($address)) {
                 $register->address = $address;
             }
-
+        
             $register->save();
-
+        
             return response()->json(
                 [
                     "success" => true,
-                    "message" => "Register updated",
+                    "message" => "Profile updated",
                     "data" => $register
                 ],
                 200

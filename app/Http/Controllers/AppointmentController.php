@@ -105,7 +105,7 @@ class AppointmentController extends Controller
                 );
             }
 
-            // Verificar si el usuario está autorizado para actualizar la cita
+            // Verify if the user is authorized to update the appointment
             if ($appointment->pet->user_id !== auth()->user()->id) {
                 return response()->json(
                     [
@@ -160,7 +160,7 @@ class AppointmentController extends Controller
                 );
             }
 
-            // Verificar si el usuario está autorizado para eliminar la cita
+            // Check if the user is authorized to delete the quote
             if ($appointment->pet->user_id !== auth()->user()->id) {
                 return response()->json(
                     [
@@ -194,8 +194,8 @@ class AppointmentController extends Controller
     public function getAppointmentsByUser(Request $request)
     {
         try {
-            $user = $request->user(); // Obtener el usuario autenticado
-            $appointments = $user->appointments()->get(); // Obtener todas las citas del usuario
+            $user = $request->user(); // Get authenticated user
+            $appointments = $user->appointments()->get(); // Get all the user's appointments
 
             return response()->json(
                 [
