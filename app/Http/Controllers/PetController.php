@@ -27,11 +27,11 @@ class PetController extends Controller
         }
 
         $name = $request->input('name');
-        $breed = $request->input('breed');
+        $type = $request->input('type');
 
         // Verifica si la mascota ya existe en la base de datos antes de crearla
         $existingPet = Pet::where('name', $name)
-                        ->where('breed', $breed)
+                        ->where('type', $type)
                         ->first();
 
         if ($existingPet) {
@@ -44,9 +44,10 @@ class PetController extends Controller
             );
         }
 
-        // Si no existe una mascota con el mismo nombre y raza, crea una nueva
+        // Si no existe una mascota con el mismo nombre y tipo, crea una nueva
         $age = $request->input('age');
-        $type = $request->input('type');
+        $breed = $request->input('breed');
+        
 
         $pet = new Pet();
         $pet->name = $name;

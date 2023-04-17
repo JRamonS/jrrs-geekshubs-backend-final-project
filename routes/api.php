@@ -3,6 +3,7 @@
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PetController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,15 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', function () {
     return view('welcome');
+});
+
+//Users
+Route::group([
+    'middleware' => ['auth:sanctum', 'isAdmin']
+], function () {
+    Route::get('/users', [UserController::class, 'getAllUsers']);
+    Route::get('/profile', [AuthController::class, 'profile']);
+    
 });
 
 // AUTH
