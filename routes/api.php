@@ -4,6 +4,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\UserController;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,9 +27,10 @@ Route::group([
     'middleware' => ['auth:sanctum', 'isAdmin']
 ], function () {
     Route::get('/users', [UserController::class, 'getAllUsers']);
-    Route::get('/profile', [AuthController::class, 'profile']);
-    
 });
+
+//AllAppointments
+Route::get('/appointments', [AppointmentController::class, 'getAllAppointments'])->middleware(['auth:sanctum', 'isAdmin']);
 
 // AUTH
 Route::post('/register', [AuthController::class, 'register']);
