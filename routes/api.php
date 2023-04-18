@@ -7,6 +7,8 @@ use App\Http\Controllers\UserController;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Mail\ContactMail;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,3 +68,10 @@ Route::group([
 
 
 
+Route::get('/contact', function () {
+    $email = new ContactMail;
+
+    Mail::to('ramon.r.santana@gmail.com')->send($email);
+
+    return "Mensaje enviado";
+});

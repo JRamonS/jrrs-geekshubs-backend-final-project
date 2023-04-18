@@ -13,12 +13,25 @@ class AppointmentController extends Controller
     public function getAllAppointments()
     {
         try {
-            $appointments = Appointment::query()->get();
+
+            $appointments = Appointment::with(
+                [ 
+                    'pet' => function ($query) {
+                        $query->select('id', 'name', 'breed', 'type');
+            }, 
+                    'service' => function ($query) {
+                        $query->select('id', 'duration', 'description', 'type');
+            },
+                    'user' => function ($query) {
+                        $query->select('id', 'name', 'surname', 'phone', 'address');
+            }])
+            ->select('id', 'observation', 'dateTime', 'pet_id', 'service_id', 'user_id')
+            ->get();
 
             return [
                 "message" => "All Appointments",
                 "success" => true,
-                "data" => $appointments
+                "data" => $appointments,
             ];
         } catch (\Exception $th) {
             Log::error("Getting all Appointments: " . $th->getMessage());
@@ -65,6 +78,7 @@ class AppointmentController extends Controller
                     "success" => true,
                     "message" => "Appointment created",
                     "data" => $appointment
+                    
                 ],
                 200
             );
