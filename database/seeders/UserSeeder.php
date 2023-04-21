@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
                     'password'=>bcrypt("Ruben123"),
                     'phone'=> "644234323",
                     'address'=> "C/ Isla de lobeira 1",
-                    'role_id'=> 2
+                    'role_id'=> 1
                 ],
             ]
         );

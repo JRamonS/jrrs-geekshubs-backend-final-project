@@ -28,9 +28,12 @@ Route::get('/', function () {
 Route::group([
     'middleware' => ['auth:sanctum', 'isAdmin']
 ], function () {
-    Route::get('/users', [UserController::class, 'getAllUsers']);
+    Route::get('/users/admin', [UserController::class, 'getAllUsers']);
     Route::delete('/users', [UserController::class, 'deleteUser']);
 });
+
+//user by id
+Route::get('/users', [UserController::class, 'getUserById'])->middleware('auth:sanctum');
 
 //AllAppointments by Admin
 Route::get('/appointments', [AppointmentController::class, 'getAllAppointments'])->middleware(['auth:sanctum', 'isAdmin']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
@@ -30,6 +31,30 @@ class UserController extends Controller
             );
         }
     }
+
+    public function getUserById()
+{
+    try {
+        $user = Auth::user();
+        $id = $user->id;
+        $userById = User::findOrFail($id);
+
+        return [
+            "message" => "User",
+            "success" => true,
+            "data" => $userById
+        ];
+    } catch (\Exception $th) {
+        Log::error("Getting User by ID: " . $th->getMessage());
+        return response()->json(
+            [
+                "success" => false,
+                "message" => "Error occurred when getting the user"
+            ],
+            500
+        );
+    }
+}
 
     public function deleteUser(Request $request,)
 {
