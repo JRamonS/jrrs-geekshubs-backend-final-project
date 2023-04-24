@@ -20,28 +20,28 @@ class ServiceSeeder extends Seeder
                     'duration' => "40min",
                     'price' => "40",
                     'description' => "Bathroom with the best products on the market",
-                    'type' => "Bath"
+                    'name' => "Bath"
                 ],
                 [
                     'id' => 2,
                     'duration' => "60min",
                     'price' => "80",
                     'description' => "Bathroom with the best products on the market",
-                    'type' => "Nails Cutting"
+                    'name' => "Nails Cutting"
                 ],
                 [
                     'id' => 3,
                     'duration' => "80min",
                     'price' => "120",
                     'description' => "We have the best haircutting              professionals, internationally recognized.",
-                    'type' => "Haircut"
+                    'name' => "Haircut"
                 ],
                 [
                     'id' => 4,
                     'duration' => "30min",
                     'price' => "30",
                     'description' => "We know that the most important thing is your pet's teeth, that's why we take care of their oral hygiene.",
-                    'type' => "Toothbrushing"
+                    'name' => "Toothbrushing"
                 ]
             ]
         );

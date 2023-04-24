@@ -32,12 +32,11 @@ class UserController extends Controller
         }
     }
 
-    public function getUserById()
+    public function getUserById(Request $request)
 {
     try {
         $user = Auth::user();
-        $id = $user->id;
-        $userById = User::findOrFail($id);
+        $userById = $user;
 
         return [
             "message" => "User",

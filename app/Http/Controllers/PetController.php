@@ -94,6 +94,7 @@ class PetController extends Controller
                         'id' => $pet->id,
                         'name' => $pet->name,
                         'breed' => $pet->breed,
+                        'age' => $pet->age,
                         'type' => $pet->type,
                     ];
                 })
