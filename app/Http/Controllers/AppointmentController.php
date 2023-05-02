@@ -13,25 +13,25 @@ class AppointmentController extends Controller
     public function getAllAppointments()
     {
         try {
+            $appointments = Appointment::with('user:id,name,surname,phone,address', 'service:id,name,price', 'pet:id,name,type')->get();
 
-            $appointments = Appointment::with(
-                [ 
-                    'pet' => function ($query) {
-                        $query->select('id', 'name', 'breed', 'type');
-            }, 
-                    'service' => function ($query) {
-                        $query->select('id', 'duration', 'description', 'type');
-            },
-                    'user' => function ($query) {
-                        $query->select('id', 'name', 'surname', 'phone', 'address');
-            }])
-            ->select('id', 'observation', 'dateTime', 'pet_id', 'service_id', 'user_id')
-            ->get();
+        $formattedAppointments = $appointments->map(function($appointment){
+            return [
+                'id' => $appointment->id,
+                'observation' => $appointment->observation,
+                'dateTime' => $appointment->dateTime,
+                'user' => $appointment->user->only(['name', 'surname', 'phone', 'address']),
+                'pet_id' => $appointment->pet_id,
+                'pet' => $appointment->pet->only(['name', 'type']),
+                'service_id' => $appointment->service_id,
+                'service' => $appointment->service->only(['name', 'price'])
+            ];
+        });
 
             return [
                 "message" => "All Appointments",
                 "success" => true,
-                "data" => $appointments,
+                "data" => $formattedAppointments
             ];
         } catch (\Exception $th) {
             Log::error("Getting all Appointments: " . $th->getMessage());
@@ -50,7 +50,7 @@ class AppointmentController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'observation' => 'required|string',
-                'dateTime' => 'required|date_format:Y-m-d H:i:s',
+                'dateTime' => 'required|',
                 'service_id' => 'required',
                 'pet_id' => 'required|exists:pets,id,user_id,' . auth()->user()->id
             ]);
@@ -78,7 +78,7 @@ class AppointmentController extends Controller
                     "success" => true,
                     "message" => "Appointment created",
                     "data" => $appointment
-                    
+
                 ],
                 200
             );
@@ -100,7 +100,8 @@ class AppointmentController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'observation' => 'required|string',
-                'dateTime' => 'required|date_format:Y-m-d H:i:s',
+                'dateTime' => 'required',
+                'service_id' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -132,10 +133,12 @@ class AppointmentController extends Controller
 
             $observation = $request->input('observation');
             $dateTime = $request->input('dateTime');
+            $serviceId = $request->input('service_id');
 
 
             $appointment->observation = $observation;
             $appointment->dateTime = $dateTime;
+            $appointment->service_id = $serviceId;
 
 
             $appointment->save();
@@ -209,13 +212,15 @@ class AppointmentController extends Controller
     {
         try {
             $user = $request->user(); // Get authenticated user
-            $appointments = $user->appointments()->get(); // Get all the user's appointments
+            $appointments = $user->appointments()
+                ->with(['user', 'service', 'pet'])
+                ->get(); // Get all the user's appointments with related models
 
             return response()->json(
                 [
                     "success" => true,
                     "message" => "User appointments",
-                    "data" => $appointments
+                    "data" => $appointments,
                 ],
                 200
             );

@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
                     'name'=>"Luis",
                     'surname'=> "Diaz",
                     'email'=>"luis@luis.com",
-                    'password'=>bcrypt("Mateo123"),
+                    'password'=>bcrypt("Carlos123"),
                     'phone'=> "644234323",
                     'address'=> "C/ Pedro de lobeira 10",
                     'role_id'=> 2
@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
                     'password'=>bcrypt("Ruben123"),
                     'phone'=> "644234323",
                     'address'=> "C/ Isla de lobeira 1",
-                    'role_id'=> 1
+                    'role_id'=> 2
                 ],
             ]
         );

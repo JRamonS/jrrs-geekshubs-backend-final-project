@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
 
 
         User::factory(10)->create();
-        Pet::factory(10)->create();
-        Appointment::factory(10)->create();
+        Pet::factory(13)->create();
+        Appointment::factory(13)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

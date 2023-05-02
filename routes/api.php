@@ -36,7 +36,7 @@ Route::group([
 Route::get('/users', [UserController::class, 'getUserById'])->middleware('auth:sanctum');
 
 //AllAppointments by Admin
-Route::get('/appointments', [AppointmentController::class, 'getAllAppointments'])->middleware(['auth:sanctum', 'isAdmin']);
+Route::get('/appointments/admin', [AppointmentController::class, 'getAllAppointments'])->middleware(['auth:sanctum', 'isAdmin']);
 
 // AUTH
 Route::post('/register', [AuthController::class, 'register']);

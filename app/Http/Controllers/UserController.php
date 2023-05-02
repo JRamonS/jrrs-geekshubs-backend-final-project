@@ -13,7 +13,9 @@ class UserController extends Controller
     public function getAllUsers()
     {
         try {
-            $users = User::query()->get();
+            $users = User::where('active', true)
+                ->where('role_id', 1)
+                ->get();
 
             return [
                 "message" => "All Users",
@@ -84,4 +86,4 @@ class UserController extends Controller
     }
 }
 
-}
+};
