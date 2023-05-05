@@ -30,9 +30,5 @@ class DatabaseSeeder extends Seeder
         Pet::factory(13)->create();
         Appointment::factory(13)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }

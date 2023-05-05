@@ -26,7 +26,7 @@ class ServiceSeeder extends Seeder
                     'id' => 2,
                     'duration' => "60min",
                     'price' => "80",
-                    'description' => "Bathroom with the best products on the market",
+                    'description' => "We cut the nails in an efficient and calm way for your pet.",
                     'name' => "Nails Cutting"
                 ],
                 [
