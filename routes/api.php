@@ -32,11 +32,19 @@ Route::group([
     Route::delete('/users', [UserController::class, 'deleteUser']);
 });
 
+//AllAppointments by Admin
+Route::get('/appointments/admin', [AppointmentController::class, 'getAllAppointments'])->middleware(['auth:sanctum', 'isAdmin']);
+
+//Update Profile By Admin
+Route::put('/profile/admin', [AuthController::class, 'updateProfileAdmin'])->middleware(['auth:sanctum', 'isAdmin']);
+
+
+
+
 //user by id
 Route::get('/users', [UserController::class, 'getUserById'])->middleware('auth:sanctum');
 
-//AllAppointments by Admin
-Route::get('/appointments/admin', [AppointmentController::class, 'getAllAppointments'])->middleware(['auth:sanctum', 'isAdmin']);
+
 
 // AUTH
 Route::post('/register', [AuthController::class, 'register']);
