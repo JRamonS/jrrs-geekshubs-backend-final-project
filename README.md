@@ -265,4 +265,4 @@ I thank my colleagues for their time dedicated to this project:
 
 <a href="https://www.linkedin.com/in/jose-ramon-rosario-36721a242/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
 
-<a href="https://www.github.com/JRamonS/" target="_blank"><img src="https://img.shields.io/badge/github-24292F?style=for-the-badge&logo=github&logoColor=green" target="_blank"></a> 
+
