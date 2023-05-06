@@ -220,4 +220,78 @@ class AuthController extends Controller
             );
         }
     }
+
+    public function updateProfileAdmin(Request $request)
+{
+    try {
+
+        // Verify user authentication
+        $user = auth()->user();
+
+        // Verify user role
+        if ($user->role_id != '2') {
+            return response()->json(
+                [
+                    "success" => false,
+                    "message" => "Unauthorized access"
+                ],
+                401
+            );
+        }
+
+        $validator = Validator::make($request->all(), [
+            'phone' => 'required|string|max:15',
+            'address' => 'required|string|max:60',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+        
+        $id = $request->input('id');
+        $register = User::find($id);
+    
+        if (!$register) {
+            return response()->json(
+                [
+                    "success" => true,
+                    "message" => "Profile doesn't exists",
+                ],
+                400
+            );
+        }
+    
+        $phone = $request->input('phone');
+        $address = $request->input('address');
+    
+        if (isset($phone)) {
+            $register->phone = $phone;
+        }
+    
+        if (isset($address)) {
+            $register->address = $address;
+        }
+    
+        $register->save();
+    
+        return response()->json(
+            [
+                "success" => true,
+                "message" => "Profile updated",
+                "data" => $register
+            ],
+            200
+        );
+    } catch (\Throwable $th) {
+        return response()->json(
+            [
+                "success" => false,
+                "message" => $th->getMessage()
+            ],
+            500
+        );
+    }
+}
+
+
 }
