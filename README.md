@@ -238,8 +238,6 @@ This project is under MIT License.
 I managed to raise and develop the proposed objective of creating an API connected to its database for a dog grooming salon using Laravel and JavaScript technologies. It addressed the main aspects of the project. Such as the possibility of registration and login, create, modification and deletion of appointments, and display of different services, access via tokens to different routes etc…
 
 It was possible to identify the main design problems of the database, the various difficulties that arose especially with the method of verification of the token and the different relationships between the tables of the database that were managed to address adequately so that all the functionalities foreseen in the basic design of the project were correctly carried out.
-
-One of the problems I have not been able to solve was that users could only see appointments from Monday to Friday during the opening hours of the establishment, which are from 8am to 5pm. 
  
  ## Acknowledgments
 
