@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('breed');
-            $table->string('age');
+            $table->integer('age');
             $table->string('type');
             $table->timestamps();
 
